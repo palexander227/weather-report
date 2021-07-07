@@ -8,6 +8,19 @@ var humidity = document.getElementById("humi");
 var windSpeed = document.getElementById("wind");
 var icon = document.getElementById("icon");
 var cityName = document.getElementById("name");
+var getUviClass = (uvi) => {
+    if(uvi == null){
+      return;
+    }
+    uvi = parseFloat(uvi);
+    if (uvi >= 8) {
+      return 'uvi-high';
+    }else if (uvi >= 3) {
+      return 'uvi-medium';
+    }else {
+      return 'uvi-low';
+    }
+  };
 
 
 var showDetail = () => {
@@ -68,6 +81,12 @@ var fetchWeatherApi = async(city) => {
         return false;
     }
 
+    var res2 = await fetch(
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&units=Imperial&appid=${ApiKey}`
+      );
+     
+      var data2 = await res2.json();
+
     localStorage.setItem(
         "weather",
         JSON.stringify({
@@ -77,6 +96,8 @@ var fetchWeatherApi = async(city) => {
             icon: data.weather[0].icon,
             date: data.dt,
             name: data.name,
+            uvi: data2.current.uvi,
+            daily: data2.daily,
         })
     );
     showDetail();
