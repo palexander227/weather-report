@@ -24,7 +24,8 @@ var getUviClass = (uvi) => {
 
 
 var showDetail = () => {
-    //get data from localstorage
+    /*This function retrieves and formats the API data from local storage. It calls the above
+    'getUviClass to get the UV data --- tricky to get right.*/ 
     var weather = JSON.parse(localStorage.getItem("weather"));
 
     if (weather) {
@@ -65,10 +66,33 @@ var showDetail = () => {
     }
 };
 
+//Get and track the historical data for future reference. Note last use goes on top.
+var handleCityHistory = (id) => {
+    var history = JSON.parse(localStorage.getItem("history")).reverse();
+    var histData = history.filter((item, ind) => {
+      return history[ind] == history[id];
+    });
+    fetchWeatherApi(histData[0]);
+  };
+
+  //Tracking the list of cities the user has viewed on previous occasions. For use in final display.
+  var renderCityList = () => {
+    let cityList = "";
+    var history = JSON.parse(localStorage.getItem("history"));
+    if (history) {
+      var revhistory = history.reverse();
+      var citylist = document.getElementById("history");
+      revhistory.map((city, i) => {
+        cityList += `<p onclick="handleCityHistory(${i})">${city}</p>`;
+      });
+      citylist.innerHTML = cityList;
+    }
+  };
 
 
 
-
+/*This does the heavy lifting of getting the data into local storage. Note the addition of
+a second 'fetch' to extract the appropriate UV data.*/
 
 var fetchWeatherApi = async(city) => {
     var res = await fetch(
@@ -100,9 +124,12 @@ var fetchWeatherApi = async(city) => {
             daily: data2.daily,
         })
     );
+    renderCityList();
     showDetail();
+
 };
 
+//This function triggers all the work of the above in response to the user's click on icon.
 var handleSearch = () => {
     var cityName = document.getElementById("city").value;
     fetchWeatherApi(cityName);
@@ -112,4 +139,5 @@ var handleSearch = () => {
 
     document.getElementById("city").value = "";
 };
+renderCityList();
 showDetail();
