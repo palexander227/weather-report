@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,25 +8,43 @@
     <link rel="stylesheet" href="style.css" />
     <title>Weather Dashboard</title>
 </head>
+
 <body>
-  <section>
-      <div class="header">
-        <h1>Weather Dashboard</h1>
-      </div>
-      <section class="container">
-          <div class="side-bar">
-              <h1>Search for a city:</h1>
-              <div class="search-bar">
-                  <input id="city" placeholder="Search" type="text"/>
-                  <img
-                   
-                    src="./image"
-                    alt="search"
-                  />
-              </div>
-          </div>       
-      </section>
-  </section> 
-  <script src="./script.js"></script>   
+    <section>
+        <div class="header">
+            <h1>Weather Dashboard</h1>
+        </div>
+        <section class="container">
+            <div class="side-bar">
+                <h1>Search for a city:</h1>
+                <div class="search-bar">
+                    <input id="city" placeholder="Search" type="text" />
+                    <img onclick="handleSearch()" src="./icon//search.png" alt="search" />
+                </div>
+                <div class="search-history" id="history"></div>
+            </div>
+            <div class="info-cont">
+                <div class="main-info">
+                    <div class="icon">
+                        <h1 id="name">City Name (8/05/2019)</h1>
+                        <img id="icon" />
+                    </div>
+                    <p id="temp">Temprature: -- F</p>
+                    <p id="humi">Humidity: -- %</p>
+                    <p id="wind">Wind Speed: -- MPH</p>
+                    <p id="uvi">UV Index: -- </p>
+                </div>
+
+                <div class="forecast">
+                    <h1>5-Day Forecast:</h1>
+                    <div id="forecast-cards" class="forecast-list">
+                        Please search for a city.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <script src="./script.js"></script>
 </body>
+
 </html>
